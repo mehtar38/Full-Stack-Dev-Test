@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flame, ArrowLeft, Download, PenLine, Loader2 } from 'lucide-react'
+import { Flame, ArrowLeft, Download, PenLine, Loader2, Wrench } from 'lucide-react'
 import { useEstimate } from '../../context/EstimateContext'
 import { formatCurrency, formatDate, displayText } from '../../lib/normalize'
 import { buildWorkItemSections } from '../../lib/calc'
@@ -70,19 +70,19 @@ export default function CustomerEstimateView() {
         {/* Letterhead */}
         <div className="bg-(--color-ink) text-white px-6 sm:px-10 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-sm bg-(--color-accent) flex items-center justify-center shrink-0">
-              <Flame size={22} className="text-white" />
+            <div className="">
+              <Wrench size={22} className="text-white" />
             </div>
             <div>
-              <div className="font-display text-2xl font-bold leading-none">SUMMIT AIR</div>
+              <div className="font-display text-2xl font-bold leading-none">Viento Tech</div>
               <div className="text-[11px] uppercase tracking-widest text-white/60">
-                Heating &amp; Cooling Co.
+                Since 1997
               </div>
             </div>
           </div>
           <div className="text-right text-xs text-white/60 hidden sm:block">
-            <div>2140 Industrial Pkwy, Springfield, IL</div>
-            <div>(217) 555-0100 · office@summitair.example</div>
+            <div>20 Corporate Park, Irvine, CA 92606</div>
+            <div>(714) 556-5999 · support@va.com</div>
           </div>
         </div>
 

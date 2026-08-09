@@ -39,23 +39,22 @@ export function generateEstimatePdf(estimate: Estimate, totals: EstimateTotals):
   // Letterhead band
   doc.setFillColor(...INK)
   doc.rect(0, 0, pageWidth, 84, 'F')
-  doc.setFillColor(...ACCENT)
+  // doc.setFillColor(...ACCENT)
   doc.rect(margin, 24, 34, 34, 'F')
   doc.setTextColor(255, 255, 255)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(20)
-  doc.text('SUMMIT AIR', margin + 44, 42)
+  doc.text('Viento Tech', margin + 44, 42)
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
   doc.setTextColor(210, 210, 210)
-  doc.text('HEATING & COOLING CO.', margin + 44, 55)
+  doc.text('Trusted Since 1977', margin + 44, 55)
   doc.setFontSize(8.5)
-  doc.text('2140 Industrial Pkwy, Springfield, IL', pageWidth - margin, 36, { align: 'right' })
-  doc.text('(217) 555-0100  ·  office@summitair.example', pageWidth - margin, 48, { align: 'right' })
+  doc.text('20 Corporate Park, Irvine, CA 92606', pageWidth - margin, 36, { align: 'right' })
+  doc.text('(714) 556-5999  · support@va.com', pageWidth - margin, 48, { align: 'right' })
 
   y = 116
 
-  // Prepared for / date row
   doc.setTextColor(...GRAY)
   doc.setFontSize(8)
   doc.setFont('helvetica', 'bold')

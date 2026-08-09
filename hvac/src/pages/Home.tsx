@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Zap, Search, Wrench, FileCheck, Clock, ArrowRight, Flame } from 'lucide-react'
+import { Zap, Search, Wrench, FileCheck, Clock, ArrowRight } from 'lucide-react'
 import Button from '../components/ui/Button'
 import { Card } from '../components/ui/Primitives'
 
@@ -11,20 +11,18 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4">
-              <Flame size={14} /> Internal Field Tool
+              {/* <Flame size={14} /> Internal Field Tool */}
             </div>
             <h1 className="font-display text-5xl sm:text-6xl font-bold leading-[0.95] mb-5">
-              Estimates built on-site, not back at the office.
+              Best in business because we make YOU wait LESS!
             </h1>
             <p className="text-lg text-[var(--color-ink)]/70 leading-relaxed mb-8">
-              Summit Air's estimate builder pulls customer, equipment, and labor data the moment
-              you need it — so you can quote a job accurately while you're still standing in
-              front of the customer, not typing it up later.
+              We are a full-service heating and cooling contractor, specializing in installation, maintenance, and repair for all HVAC systems.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link to="/estimate">
-                <Button size="lg" icon={<ArrowRight size={18} />}>
-                  Open Estimate Builder
+                <Button size="lg">
+                  Contact to get an Estimate
                 </Button>
               </Link>
             </div>
@@ -37,28 +35,24 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
           <div>
             <div className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2">
-              The Problem
+              Our Team
             </div>
             <h2 className="font-display text-3xl font-bold mb-4 leading-tight">
-              Every extra minute is a minute the customer is waiting.
+             Experienced people, supported by better tools.
             </h2>
             <p className="text-[var(--color-ink)]/70 leading-relaxed">
-              Looking up a customer's system, digging up equipment pricing, checking labor rates,
-              doing the math by hand, then writing it all up — it adds up fast, and it all happens
-              with the customer standing right there.
+             Our technicians bring the expertise. We give them the information they need to put it to work.
             </p>
           </div>
           <div>
             <div className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2">
-              The Approach
+              Our Standards
             </div>
             <h2 className="font-display text-3xl font-bold mb-4 leading-tight">
-              If we already know it, you shouldn't have to type it.
+              Straightforward work. Transparent pricing.
             </h2>
             <p className="text-[var(--color-ink)]/70 leading-relaxed">
-              Pick a customer and their property details, system type, and history fill in
-              automatically. Pick equipment and pricing populates from the catalog. You only enter
-              what genuinely requires a judgment call — job type, hours, discount.
+              We keep estimates clear and detailed, so customers understand the work before making a decision.
             </p>
           </div>
         </div>
@@ -67,31 +61,31 @@ export default function Home() {
       {/* How it works */}
       <section className="bg-[var(--color-ink)] text-white py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="font-display text-3xl font-bold mb-8">How an estimate comes together</h2>
+          <h2 className="font-display text-3xl font-bold mb-8">Our Services</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Step
-              icon={<Search size={22} />}
+              icon={<FileCheck size={22} />}
               step="01"
-              title="Find the customer"
-              body="Search by name or address — property details and system type populate automatically."
+              title="Installation"
+              body="We have a wide catalog of brands and models"
             />
             <Step
               icon={<Wrench size={22} />}
               step="02"
-              title="Confirm equipment"
-              body="Relevant equipment is inferred from the system on file. Adjust brand, model, or pricing as needed."
+              title="Repair"
+              body="Old is gold, and so we make sure your old turns to gold again!"
+            />
+            <Step
+              icon={<Search size={22} />}
+              step="03"
+              title="Diagnostic and Tune Ups"
+              body="Our experienced technicians at the rescue!"
             />
             <Step
               icon={<Clock size={22} />}
-              step="03"
-              title="Set labor & discount"
-              body="Choose the job type and hours within the allowed range, then apply any discount."
-            />
-            <Step
-              icon={<FileCheck size={22} />}
               step="04"
-              title="Review & send"
-              body="Review the numbers, then hand the customer a clean, professional PDF estimate."
+              title="Instant Estimates"
+              body="Imagine less waiting and more work... well you don't have to imagine anymore"
             />
           </div>
         </div>

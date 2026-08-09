@@ -32,7 +32,7 @@ export function buildPricingRequestMailto(params: {
 
   const body = lines.join('\n')
 
-  return `mailto:pricing@office.example?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  return `mailto:support@va.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
 
 export function buildLaborReviewMailto(params: {

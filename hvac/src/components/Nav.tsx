@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Flame, Lock, LogOut, KeyRound } from 'lucide-react'
+import { Lock, LogOut, KeyRound, Wrench } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import Modal from './ui/Modal'
 import Button from './ui/Button'
@@ -33,13 +33,13 @@ export default function Nav() {
       <header className="sticky top-0 z-40 bg-[var(--color-paper)]/95 backdrop-blur border-b-2 border-[var(--color-ink)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-sm bg-[var(--color-ink)] flex items-center justify-center flex-shrink-0">
-              <Flame size={18} className="text-[var(--color-accent)]" />
+            <div className="">
+              <Wrench size={18} className="text-[var(--color-accent)]" />
             </div>
             <div className="leading-none">
-              <div className="font-display text-xl font-bold">SUMMIT AIR</div>
+              <div className="font-display text-xl font-bold">Viento Tech</div>
               <div className="text-[9px] uppercase tracking-widest text-[var(--color-ink)]/50">
-                Estimate Builder
+                Trusted since 1997
               </div>
             </div>
           </Link>
@@ -60,7 +60,7 @@ export default function Nav() {
               </button>
             </div>
           ) : (
-            <Button variant="primary" size="sm" icon={<Lock size={15} />} onClick={() => setShowLogin(true)}>
+            <Button className='cursor-pointer' variant="primary" size="sm" icon={<Lock size={15} />} onClick={() => setShowLogin(true)}>
               Tech Login
             </Button>
           )}

@@ -1,9 +1,9 @@
 import type { Customer, Estimate } from '../types'
 
 const KEYS = {
-  authed: 'hvac-est.tech-authed',
-  newCustomers: 'hvac-est.new-customers',
-  draftEstimate: 'hvac-est.draft-estimate',
+  authed: 'hvac.tech-authed',
+  newCustomers: 'hvac.new-customers',
+  draftEstimate: 'hvac.draft-estimate',
 } as const
 
 export const TECH_PASSCODE = 'hvac'

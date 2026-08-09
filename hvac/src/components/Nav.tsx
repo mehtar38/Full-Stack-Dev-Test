@@ -83,7 +83,7 @@ export default function Nav() {
                 setError(false)
               }}
               onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              placeholder="Passcode"
+              placeholder="Passcode: hvac"
               className={`w-full rounded-sm border-2 pl-10 pr-3.5 py-2.5 text-[15px] outline-none ${
                 error ? 'border-[var(--color-bad)]' : 'border-[var(--color-line)] focus:border-[var(--color-ink)]'
               }`}

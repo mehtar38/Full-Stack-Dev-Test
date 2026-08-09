@@ -3,6 +3,7 @@ import { useEstimate } from '../../context/EstimateContext'
 import { formatCurrency, displayText, formatDate } from '../../lib/normalize'
 import { computeWorkItemTotals } from '../../lib/calc'
 import Button from '../ui/Button'
+import { TextInput } from '../ui/Field'
 import { Badge, Card } from '../ui/Primitives'
 
 const JOB_TYPE_LABELS: Record<string, string> = {
@@ -27,8 +28,19 @@ const LEVEL_LABELS: Record<string, string> = {
 }
 
 export default function StepReview() {
-  const { estimate, totals, workItems, goToStep, focusWorkItem, addWorkItem, removeWorkItem, approveReview, goNext } =
-    useEstimate()
+  const {
+    estimate,
+    totals,
+    workItems,
+    technicianName,
+    setTechnicianName,
+    goToStep,
+    focusWorkItem,
+    addWorkItem,
+    removeWorkItem,
+    approveReview,
+    goNext,
+  } = useEstimate()
 
   function handleApprove() {
     approveReview()
@@ -57,6 +69,20 @@ export default function StepReview() {
             <Pencil size={13} /> Edit
           </button>
         </div>
+      </Card>
+      
+      <Card>
+        <div className="text-xs font-bold uppercase tracking-wide text-[var(--color-ink)]/50 mb-3">
+          Estimate Details
+        </div>
+        <TextInput
+          label="Technician Name"
+          required
+          value={technicianName}
+          onChange={(e) => setTechnicianName(e.target.value)}
+          placeholder="Enter technician name"
+          // error={!technicianName.trim() ? 'Technician name is required before showing the customer estimate.' : undefined}
+        />
       </Card>
 
       {workItems.map((wi, idx) => {
@@ -174,7 +200,7 @@ export default function StepReview() {
       </p>
 
       <div className="flex justify-end pt-2">
-        <Button onClick={handleApprove} icon={<FileText size={17} />} size="lg">
+        <Button onClick={handleApprove} disabled={!technicianName.trim()} icon={<FileText size={17} />} size="lg">
           Show Customer Estimate
         </Button>
       </div>

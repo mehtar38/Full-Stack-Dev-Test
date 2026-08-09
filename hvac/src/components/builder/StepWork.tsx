@@ -1,11 +1,22 @@
 import { Plus, ArrowRight, ArrowLeft } from 'lucide-react'
 import { useEstimate } from '../../context/EstimateContext'
+import { validateEquipmentItem } from '../../lib/calc'
 import WorkItemPanel from './WorkItemPanel'
 import Button from '../ui/Button'
 
 export default function StepWork() {
   const { workItems, addWorkItem, goNext, goBack } = useEstimate()
-  const allComplete = workItems.length > 0 && workItems.every((w) => !!w.jobType && !!w.labor)
+  const allComplete =
+    workItems.length > 0 &&
+    workItems.every(
+      (w) =>
+        !!w.jobType &&
+        !!w.labor &&
+        w.equipment.every((item) => validateEquipmentItem(item).valid),
+    )
+  const hasEquipmentErrors = workItems.some((w) =>
+    w.equipment.some((item) => !validateEquipmentItem(item).valid),
+  )
 
   return (
     <div className="space-y-4">
@@ -22,7 +33,8 @@ export default function StepWork() {
 
       {!allComplete && (
         <p className="text-xs text-[var(--color-ink)]/50">
-          Each work item needs a job type and a labor selection before you can continue.
+          Each work item needs a job type and labor selection.
+          {hasEquipmentErrors && ' Complete or remove any unfinished equipment entries before continuing.'}
         </p>
       )}
 

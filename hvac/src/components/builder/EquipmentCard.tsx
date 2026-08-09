@@ -10,6 +10,7 @@ import {
   findEquipmentById,
 } from '../../lib/data'
 import { formatCurrency } from '../../lib/normalize'
+import { validateEquipmentItem } from '../../lib/calc'
 import { buildPricingRequestMailto } from '../../lib/mailto'
 import { useEstimate } from '../../context/EstimateContext'
 import { TextInput, SelectInput } from '../ui/Field'
@@ -29,6 +30,7 @@ export default function EquipmentCard({
 }) {
   const { updateEquipment, removeEquipment, copyEquipment } = useEstimate()
   const [showUnknownPanel, setShowUnknownPanel] = useState(false)
+  const [manualMode, setManualMode] = useState(item.pricingSource === 'custom' && !!item.brand && !!item.model)
 
   const allCategories = categoriesInCatalog()
   const categoryOptions = allCategories.includes(item.category)
@@ -52,6 +54,7 @@ export default function EquipmentCard({
       pricingSource: 'custom',
     })
     setShowUnknownPanel(false)
+    setManualMode(false)
   }
 
   function handleBrandChange(brand: string) {
@@ -63,6 +66,7 @@ export default function EquipmentCard({
       cost: 0,
       pricingSource: 'custom',
     })
+    setManualMode(false)
   }
 
   function handleModelChange(catalogId: string) {
@@ -75,6 +79,17 @@ export default function EquipmentCard({
       cost: eq.baseCost,
       pricingSource: 'catalog',
     })
+    setShowUnknownPanel(false)
+    setManualMode(false)
+  }
+
+  function enterManualMode() {
+    updateEquipment(workItemId, item.lineId, {
+      catalogId: null,
+      pricingSource: 'custom',
+      cost: item.cost > 0 ? item.cost : 0,
+    })
+    setManualMode(true)
     setShowUnknownPanel(false)
   }
 
@@ -111,7 +126,7 @@ export default function EquipmentCard({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <SelectInput label="Category" value={item.category} onChange={(e) => handleCategoryChange(e.target.value)}>
+        <SelectInput label="Category" value={item.category} onChange={(e) => handleCategoryChange(e.target.value)} required>
           {!item.category && <option value="">Choose category…</option>}
           {categoryOptions.map((c) => (
             <option key={c} value={c}>
@@ -120,28 +135,131 @@ export default function EquipmentCard({
           ))}
         </SelectInput>
 
-        {item.category && !hasNoMatches && (
-          <SelectInput
-            label="Brand"
-            value={item.brand ?? ''}
-            onChange={(e) => handleBrandChange(e.target.value)}
-          >
-            <option value="">Select brand…</option>
-            {brands.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </SelectInput>
+        {!manualMode && item.category && !hasNoMatches && (
+          <div>
+            <SelectInput
+              label="Brand"
+              value={item.brand ?? ''}
+              onChange={(e) => handleBrandChange(e.target.value)}
+              required
+            >
+              <option value="">Select brand…</option>
+              {brands.map((b) => (
+                <option key={b} value={b}>
+                  {b}
+                </option>
+              ))}
+            </SelectInput>
+            <button
+              type="button"
+              onClick={enterManualMode}
+              className="mt-1.5 text-xs font-semibold text-[var(--color-accent)] hover:underline"
+            >
+              Add brand/model manually
+            </button>
+          </div>
         )}
       </div>
 
-      {!hasNoMatches && item.brand && (
+      {item.category && !manualMode && hasNoMatches && (
+        <button
+          type="button"
+          onClick={enterManualMode}
+          className="mt-1.5 text-xs font-semibold text-[var(--color-accent)] hover:underline"
+        >
+          Add brand/model manually
+        </button>
+      )}
+
+      {manualMode && (
+        <div className="mt-4 border-2 border-dashed border-[var(--color-line)] rounded-sm p-4 bg-[var(--color-paper)]">
+          <div className="text-xs font-bold uppercase tracking-wide text-[var(--color-ink)]/60 mb-3">
+            Manual equipment
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <TextInput
+              label="Brand"
+              required
+              value={item.brand ?? ''}
+              onChange={(e) =>
+                updateEquipment(workItemId, item.lineId, {
+                  brand: e.target.value,
+                  pricingSource: 'custom',
+                  catalogId: null,
+                })
+              }
+              placeholder="e.g. Carrier"
+            />
+            <TextInput
+              label="Model"
+              required
+              value={item.model ?? ''}
+              onChange={(e) =>
+                updateEquipment(workItemId, item.lineId, {
+                  model: e.target.value,
+                  pricingSource: 'custom',
+                  catalogId: null,
+                })
+              }
+              placeholder="e.g. Comfort 16"
+            />
+            <TextInput
+              label="Model Number"
+              required
+              value={item.modelNumber ?? ''}
+              onChange={(e) =>
+                updateEquipment(workItemId, item.lineId, {
+                  modelNumber: e.target.value,
+                  pricingSource: 'custom',
+                  catalogId: null,
+                })
+              }
+              placeholder="Model number"
+            />
+            <TextInput
+              label="Cost"
+              type="number"
+              min={0}
+              step="0.01"
+              required
+              value={item.cost || ''}
+              onChange={(e) =>
+                updateEquipment(workItemId, item.lineId, {
+                  cost: Number(e.target.value) || 0,
+                  pricingSource: 'custom',
+                  catalogId: null,
+                })
+              }
+              placeholder="0.00"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setManualMode(false)
+              updateEquipment(workItemId, item.lineId, {
+                brand: null,
+                model: null,
+                modelNumber: null,
+                catalogId: null,
+                cost: 0,
+                pricingSource: 'custom',
+              })
+            }}
+            className="mt-3 text-xs font-semibold text-[var(--color-ink)]/50 hover:text-[var(--color-ink)] hover:underline"
+          >
+            Use catalog instead
+          </button>
+        </div>
+      )}
+
+      {!manualMode && !hasNoMatches && item.brand && (
         <div className="mt-4">
           <SelectInput
             label="Model"
             value={item.catalogId ?? ''}
             onChange={(e) => handleModelChange(e.target.value)}
+            required
           >
             <option value="">Select model…</option>
             {models.map((m) => (
@@ -150,10 +268,17 @@ export default function EquipmentCard({
               </option>
             ))}
           </SelectInput>
+          <button
+            type="button"
+            onClick={enterManualMode}
+            className="mt-1.5 text-xs font-semibold text-[var(--color-accent)] hover:underline"
+          >
+            Add brand/model manually
+          </button>
         </div>
       )}
 
-      {item.catalogId && (
+      {!manualMode && item.catalogId && (
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <TextInput
             label="Model Number"
@@ -177,7 +302,7 @@ export default function EquipmentCard({
         </div>
       )}
 
-      {item.category && (hasNoMatches || (item.brand && !item.catalogId) || showUnknownPanel) && (
+      {item.category && (hasNoMatches || (item.brand && !item.catalogId && !manualMode) || showUnknownPanel) && (
         <UnknownEquipmentPanel
           workItemId={workItemId}
           item={item}
@@ -186,7 +311,7 @@ export default function EquipmentCard({
         />
       )}
 
-      {item.category && !hasNoMatches && !showUnknownPanel && !item.catalogId && (
+      {item.category && !hasNoMatches && !showUnknownPanel && !item.catalogId && !manualMode && (
         <button
           onClick={() => setShowUnknownPanel(true)}
           className="mt-3 text-sm font-semibold text-[var(--color-accent)] hover:underline flex items-center gap-1"
@@ -195,6 +320,11 @@ export default function EquipmentCard({
         </button>
       )}
 
+      {!validateEquipmentItem(item).valid && (
+        <p className="mt-3 text-xs font-semibold text-[var(--color-bad)]">
+          {validateEquipmentItem(item).message}
+        </p>
+      )}
     </Card>
   )
 }
@@ -221,7 +351,8 @@ function UnknownEquipmentPanel({
   }
 
   function requestOffice() {
-    updateEquipment(workItemId, item.lineId, { pricingSource: 'pending-office', cost: item.cost })
+    updateEquipment(workItemId, item.lineId, { pricingSource: 'pending-office', cost: 0 })
+    onDone()
   }
 
   function applyCustom() {
@@ -296,7 +427,7 @@ function UnknownEquipmentPanel({
 
       {item.pricingSource === 'pending-office' && (
         <div className="mt-3">
-          <Badge tone="warn">Pending office pricing — placeholder $0 until updated</Badge>
+          <Badge tone="warn">Pending office pricing — $0 included until office responds</Badge>
         </div>
       )}
     </div>

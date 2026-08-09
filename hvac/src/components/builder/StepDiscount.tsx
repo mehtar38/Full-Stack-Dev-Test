@@ -13,6 +13,8 @@ export default function StepDiscount() {
   const preDiscountSubtotal = totals.subtotal
   const tooHigh = raw !== '' && !Number.isNaN(rawNum) && rawNum > preDiscountSubtotal
   const negative = raw !== '' && !Number.isNaN(rawNum) && rawNum < 0
+  const invalidNumber = raw !== '' && Number.isNaN(rawNum)
+  const invalid = tooHigh || negative || invalidNumber
 
   function handleChange(v: string) {
     setRaw(v)
@@ -54,7 +56,12 @@ export default function StepDiscount() {
         )}
         {negative && (
           <p className="mt-2 text-sm font-semibold text-[var(--color-bad)]">
-            Discount can't be negative. Applying $0.00 instead.
+            Discount can't be negative.
+          </p>
+        )}
+        {invalidNumber && (
+          <p className="mt-2 text-sm font-semibold text-[var(--color-bad)]">
+            Enter a valid discount amount.
           </p>
         )}
 
@@ -78,7 +85,7 @@ export default function StepDiscount() {
         <Button variant="ghost" onClick={goBack} icon={<ArrowLeft size={17} />}>
           Back
         </Button>
-        <Button onClick={goNext} icon={<ArrowRight size={17} />}>
+        <Button onClick={goNext} disabled={invalid} icon={<ArrowRight size={17} />}>
           Continue to Review
         </Button>
       </div>

@@ -27,7 +27,7 @@ const LEVEL_LABELS: Record<string, string> = {
 }
 
 export default function CustomerEstimateView() {
-  const { estimate, totals, goToStep } = useEstimate()
+  const { estimate, totals, technicianName, goToStep } = useEstimate()
   const sections = buildWorkItemSections(estimate)
   const multipleWorkItems = sections.length > 1
   const [generating, setGenerating] = useState(false)
@@ -47,7 +47,7 @@ export default function CustomerEstimateView() {
       <div className="flex items-center justify-between mb-6 print:hidden">
         <button
           onClick={() => goToStep('review')}
-          className="flex items-center gap-1.5 text-sm font-semibold text-[var(--color-ink)]/60 hover:text-[var(--color-ink)]"
+          className="flex items-center gap-1.5 text-sm font-semibold text-(--color-ink)/60 hover:text-(--color-ink)"
         >
           <ArrowLeft size={15} /> Back to review
         </button>
@@ -66,11 +66,11 @@ export default function CustomerEstimateView() {
         </div>
       </div>
 
-      <div className="bg-white border-2 border-[var(--color-ink)] rounded-sm overflow-hidden">
+      <div className="bg-white border-2 border-(--color-ink) rounded-sm overflow-hidden">
         {/* Letterhead */}
-        <div className="bg-[var(--color-ink)] text-white px-6 sm:px-10 py-6 flex items-center justify-between">
+        <div className="bg-(--color-ink) text-white px-6 sm:px-10 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-sm bg-[var(--color-accent)] flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-sm bg-(--color-accent) flex items-center justify-center shrink-0">
               <Flame size={22} className="text-white" />
             </div>
             <div>
@@ -87,9 +87,9 @@ export default function CustomerEstimateView() {
         </div>
 
         <div className="px-6 sm:px-10 py-8">
-          <div className="flex items-start justify-between mb-8 pb-6 border-b border-[var(--color-line)]">
+          <div className="flex items-start justify-between mb-8 pb-6 border-b border-(--color-line)">
             <div>
-              <div className="text-xs font-bold uppercase tracking-widest text-[var(--color-ink)]/40 mb-1">
+              <div className="text-xs font-bold uppercase tracking-widest text-(--color-ink)/40 mb-1">
                 Prepared For
               </div>
               <div className="font-display text-2xl font-bold">{estimate.customer.name}</div>
@@ -103,6 +103,10 @@ export default function CustomerEstimateView() {
               </div>
               <div className="font-mono font-semibold">{formatDate(estimate.createdAt)}</div>
               <div className="text-xs text-[var(--color-ink)]/40 mt-1 font-mono">{estimate.id}</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-[var(--color-ink)]/40 mt-3 mb-1">
+                Prepared By
+              </div>
+              <div className="font-semibold">{technicianName || 'Not specified'}</div>
             </div>
           </div>
 

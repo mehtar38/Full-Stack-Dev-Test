@@ -25,6 +25,8 @@ interface EstimateContextValue {
 
   customer: Customer | null
   setCustomer: (customer: Customer) => void
+  technicianName: string
+  setTechnicianName: (name: string) => void
 
   workItems: WorkItem[]
   addWorkItem: () => void
@@ -64,6 +66,7 @@ function newEstimateId(): string {
 export function EstimateProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState<WizardStep>('customer')
   const [customer, setCustomerState] = useState<Customer | null>(null)
+  const [technicianName, setTechnicianName] = useState('')
   const [workItems, setWorkItems] = useState<WorkItem[]>([])
   const [focusWorkItemId, setFocusWorkItemId] = useState<string | null>(null)
   const [discount, setDiscountState] = useState(0)
@@ -260,6 +263,7 @@ export function EstimateProvider({ children }: { children: ReactNode }) {
     idRef.current = newEstimateId()
     createdAtRef.current = new Date().toISOString()
     setCustomerState(null)
+    setTechnicianName('')
     setWorkItems([])
     setFocusWorkItemId(null)
     setDiscountState(0)
@@ -271,6 +275,7 @@ export function EstimateProvider({ children }: { children: ReactNode }) {
     () => ({
       id: idRef.current,
       createdAt: createdAtRef.current,
+      technicianName,
       customer: customer ?? {
         id: '',
         name: '',
@@ -285,7 +290,7 @@ export function EstimateProvider({ children }: { children: ReactNode }) {
       workItems,
       discount,
     }),
-    [customer, workItems, discount],
+    [customer, technicianName, workItems, discount],
   )
 
   const totals = useMemo(() => computeTotals(estimate), [estimate])
@@ -298,6 +303,8 @@ export function EstimateProvider({ children }: { children: ReactNode }) {
     canAccessStep,
     customer,
     setCustomer,
+    technicianName,
+    setTechnicianName,
     workItems,
     addWorkItem,
     removeWorkItem,

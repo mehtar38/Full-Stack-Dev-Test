@@ -181,16 +181,26 @@ function NewCustomerForm({
   const [squareFootage, setSquareFootage] = useState('')
   const [systemType, setSystemType] = useState('')
 
+  const squareFootageNumber = Number(squareFootage)
+  const formValid =
+    !!name.trim() &&
+    !!address.trim() &&
+    !!phone.trim() &&
+    !!systemType.trim() &&
+    !!squareFootage &&
+    Number.isFinite(squareFootageNumber) &&
+    squareFootageNumber > 0
+
   function submit() {
-    if (!name.trim()) return
+    if (!formValid) return
     const c: Customer = {
       id: `LOCAL-${Date.now()}`,
       name: name.trim(),
-      address: address.trim() || null,
-      phone: phone.trim() || null,
+      address: address.trim(),
+      phone: phone.trim(),
       propertyType,
-      squareFootage: squareFootage ? Number(squareFootage) : null,
-      systemTypeRaw: systemType.trim() || null,
+      squareFootage: squareFootageNumber,
+      systemTypeRaw: systemType.trim(),
       systemAge: null,
       lastServiceDate: null,
       isNew: true,
@@ -211,6 +221,7 @@ function NewCustomerForm({
           <TextInput
             label="Customer Name"
             required
+            error={!name.trim() ? 'Customer name is required.' : undefined}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Jane Doe"
@@ -219,6 +230,8 @@ function NewCustomerForm({
         <div className="sm:col-span-2">
           <TextInput
             label="Address"
+            required
+            error={!address.trim() ? 'Address is required.' : undefined}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="123 Main St, City, ST 00000"
@@ -226,6 +239,8 @@ function NewCustomerForm({
         </div>
         <TextInput
           label="Phone"
+          required
+          error={!phone.trim() ? 'Phone is required.' : undefined}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="(555) 555-5555"
@@ -241,13 +256,17 @@ function NewCustomerForm({
         <TextInput
           label="Square Footage"
           type="number"
-          min={0}
+          min={1}
+          required
+          error={squareFootage && (!Number.isFinite(squareFootageNumber) || squareFootageNumber <= 0) ? 'Enter a valid square footage.' : !squareFootage ? 'Square footage is required.' : undefined}
           value={squareFootage}
           onChange={(e) => setSquareFootage(e.target.value)}
           placeholder="2000"
         />
         <TextInput
           label="System Type"
+          required
+          error={!systemType.trim() ? 'System type is required.' : undefined}
           value={systemType}
           onChange={(e) => setSystemType(e.target.value)}
           placeholder="e.g. Central AC + Gas Furnace"
@@ -258,7 +277,7 @@ function NewCustomerForm({
         <Button variant="ghost" onClick={onCancel}>
           Cancel
         </Button>
-        <Button onClick={submit} disabled={!name.trim()} icon={<ArrowRight size={17} />}>
+        <Button onClick={submit} disabled={!formValid} icon={<ArrowRight size={17} />}>
           Save & Continue
         </Button>
       </div>

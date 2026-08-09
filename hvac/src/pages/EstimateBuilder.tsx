@@ -44,7 +44,7 @@ export default function EstimateBuilder() {
           {step === 'review' && <StepReview />}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="lg:sticky lg:top-20 lg:self-start">
           <EstimateSummary />
         </div>
       </div>

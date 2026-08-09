@@ -1,4 +1,4 @@
-import { Wrench, HardHat, AlertTriangle } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import { useEstimate } from '../../context/EstimateContext'
 import { formatCurrency } from '../../lib/normalize'
 import { Badge } from '../ui/Primitives'
@@ -15,17 +15,17 @@ export default function EstimateSummary() {
   const { estimate, totals, workItems } = useEstimate()
 
   return (
-    <div className="bg-[var(--color-ink)] text-white rounded-sm border-2 border-[var(--color-ink)] sticky top-20 overflow-hidden">
+    <div className="bg-(--color-ink) text-white rounded-sm border-2 border-(--color-ink) sticky top-20 overflow-hidden">
       <div className="px-5 pt-4 pb-3 border-b border-white/15">
-        <div className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]">
-          Live Estimate
+        <div className="text-xs font-bold uppercase tracking-widest text-(--color-accent)">
+          Estimate
         </div>
         <div className="font-display text-2xl font-bold leading-tight">
           {estimate.customer.name || 'No customer selected'}
         </div>
       </div>
 
-      <div className="px-5 py-4 space-y-4 max-h-[50vh] overflow-y-auto">
+      <div className="px-5 py-4 space-y-4">
         {workItems.length === 0 && (
           <p className="text-sm text-white/50">
             Select a customer and job details to start building the estimate.
@@ -43,7 +43,7 @@ export default function EstimateSummary() {
             {wi.equipment.length > 0 && (
               <div className="mb-2">
                 <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-white/50 mb-2">
-                  <Wrench size={13} /> Equipment
+                 Equipment
                 </div>
                 <div className="space-y-1.5">
                   {wi.equipment.map((item) => (
@@ -71,7 +71,7 @@ export default function EstimateSummary() {
             {wi.labor && (
               <div>
                 <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-white/50 mb-2">
-                  <HardHat size={13} /> Labor
+                   Labor
                 </div>
                 <div className="flex items-start justify-between gap-2 text-sm">
                   <span className="text-white/85 leading-snug">

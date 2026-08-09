@@ -113,6 +113,30 @@ export function buildWorkItemSections(estimate: Estimate): WorkItemSection[] {
   }))
 }
 
+
+export interface EquipmentValidationResult {
+  valid: boolean
+  message?: string
+}
+
+/** Basic validation for equipment before an estimate can be reviewed. */
+export function validateEquipmentItem(item: EquipmentLineItem): EquipmentValidationResult {
+  if (!item.category.trim()) return { valid: false, message: 'Select an equipment category.' }
+
+  // if (!item.brand?.trim()) return { valid: false, message: 'Select or enter a brand.' }
+  // if (!item.model?.trim()) return { valid: false, message: 'Select or enter a model.' }
+
+  // if (item.pricingSource !== 'pending-office' && (!Number.isFinite(item.cost) || item.cost <= 0)) {
+  //   return { valid: false, message: 'Enter a valid equipment cost or choose another pricing option.' }
+  // }
+
+  // if (item.pricingSource === 'custom' && !item.modelNumber?.trim()) {
+  //   return { valid: false, message: 'Enter the model number for manually added equipment.' }
+  // }
+
+  return { valid: true }
+}
+
 /** Clamp a requested discount into the valid [0, subtotal] range. */
 export function clampDiscount(discount: number, subtotal: number): number {
   if (Number.isNaN(discount) || discount < 0) return 0

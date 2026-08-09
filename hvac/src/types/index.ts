@@ -133,6 +133,7 @@ export interface Estimate {
   id: string
   createdAt: string
   customer: Customer
+  technicianName: string
   workItems: WorkItem[]
   discount: number
 }

@@ -75,11 +75,15 @@ export function generateEstimatePdf(estimate: Estimate, totals: EstimateTotals):
   doc.setFontSize(9.5)
   doc.setTextColor(...GRAY)
   doc.text(displayText(estimate.customer.address), margin, y)
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(8.5)
+  doc.setTextColor(...GRAY)
+  doc.text(`Prepared by: ${displayText(estimate.technicianName)}`, margin, y + 13)
   doc.setFont('courier', 'normal')
   doc.setFontSize(8.5)
   doc.text(estimate.id, pageWidth - margin, y, { align: 'right' })
 
-  y += 18
+  y += 31
   doc.setDrawColor(...LINE)
   doc.setLineWidth(1)
   doc.line(margin, y, pageWidth - margin, y)

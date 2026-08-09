@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flame, ArrowLeft, Download, PenLine, Loader2, Wrench } from 'lucide-react'
+import { ArrowLeft, Download, PenLine, Loader2, Wrench } from 'lucide-react'
 import { useEstimate } from '../../context/EstimateContext'
 import { formatCurrency, formatDate, displayText } from '../../lib/normalize'
 import { buildWorkItemSections } from '../../lib/calc'

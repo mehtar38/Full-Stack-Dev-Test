@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --color-ink: #14161c;
+  --color-ink-soft: #262a34;
+  --color-paper: #f6f4ee;
+  --color-paper-raised: #ffffff;
+  --color-line: #dedad0;
+  --color-accent: #ff5a1f;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #ffe6d9;
+  --color-blue: #1f4fd8;
+  --color-good: #1a7a3f;
+  --color-good-soft: #e2f3e7;
+  --color-warn: #b8860b;
+  --color-warn-soft: #fbf0d3;
+  --color-bad: #c22a2a;
+  --color-bad-soft: #fbe4e2;
+  --font-display: 'Big Shoulders Display', sans-serif;
+  --font-body: 'Archivo', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.grid-texture {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.hatch-texture {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-ink) 0,
+    var(--color-ink) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+}
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-line);
+  outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: var(--color-accent);
+  border: 3px solid var(--color-ink);
+  cursor: pointer;
+  margin-top: -1px;
+}
+input[type='range']::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: var(--color-accent);
+  border: 3px solid var(--color-ink);
+  cursor: pointer;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.22s ease-out;
+}
